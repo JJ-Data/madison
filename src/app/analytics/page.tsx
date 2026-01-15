@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { historyStorage, InventoryTransaction } from "@/lib/storage";
 import { useEffect, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, LabelList } from 'recharts';
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -197,11 +197,19 @@ export default function AnalyticsPage() {
                         <CardTitle>Weekly Usage Overview</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="h-[350px] w-full">
+                        <div className="h-[350px] w-full relative">
+                            {!chartData.some(d => d.usage > 0) && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-[1px] z-10">
+                                    <div className="text-center">
+                                        <p className="text-muted-foreground font-medium">No usage data for this week</p>
+                                        <p className="text-xs text-muted-foreground/70">Start using items to see analytics</p>
+                                    </div>
+                                </div>
+                            )}
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart
                                     data={chartData}
-                                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                                 >
                                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                                     <XAxis
@@ -219,14 +227,17 @@ export default function AnalyticsPage() {
                                     />
                                     <Tooltip
                                         contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))', borderRadius: '8px', color: 'hsl(var(--foreground))' }}
-                                        itemStyle={{ color: 'hsl(var(--primary))' }}
+                                        itemStyle={{ color: 'var(--color-chart-stroke)' }}
                                         cursor={{ fill: 'hsl(var(--muted))', opacity: 0.5 }}
                                     />
                                     <Bar
                                         dataKey="usage"
-                                        fill="hsl(var(--primary))"
+                                        fill="var(--color-chart-stroke)"
                                         radius={[4, 4, 0, 0]}
-                                    />
+                                        fillOpacity={1}
+                                    >
+                                        <LabelList dataKey="usage" position="top" className="fill-foreground text-xs font-bold" formatter={(value: any) => value > 0 ? value : ''} />
+                                    </Bar>
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
