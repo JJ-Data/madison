@@ -1,3 +1,5 @@
+"use client";
+
 import { LogOut } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
