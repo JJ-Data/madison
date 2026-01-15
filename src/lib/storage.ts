@@ -21,6 +21,59 @@ export const INITIAL_INVENTORY: InventoryItem[] = [
 
 const STORAGE_KEY = "madison_inventory_v1";
 
+// History Types
+export type TransactionType = 'restock' | 'usage' | 'adjustment' | 'correction';
+
+export interface InventoryTransaction {
+    id: string;
+    itemId: string;
+    itemName: string;
+    amount: number; // Positive for restock, Negative for usage (usually, but let's keep absolute and use type)
+    type: TransactionType;
+    date: string;
+    note?: string;
+}
+
+const HISTORY_KEY = "madison_inventory_history_v1";
+
+export const historyStorage = {
+    getAll: (): InventoryTransaction[] => {
+        if (typeof window === "undefined") return [];
+        const stored = localStorage.getItem(HISTORY_KEY);
+        if (!stored) return [];
+        return JSON.parse(stored);
+    },
+
+    add: (transaction: Omit<InventoryTransaction, "id" | "date">) => {
+        const history = historyStorage.getAll();
+        const newTransaction: InventoryTransaction = {
+            ...transaction,
+            id: crypto.randomUUID(),
+            date: new Date().toISOString(),
+        };
+        const newHistory = [newTransaction, ...history];
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory));
+        return newTransaction;
+    },
+
+    getByItem: (itemId: string) => {
+        const history = historyStorage.getAll();
+        return history.filter(h => h.itemId === itemId);
+    },
+
+    // Get usage stats for a specific date range
+    getUsageStats: (days: number = 7) => {
+        const history = historyStorage.getAll();
+        const cutoff = new Date();
+        cutoff.setDate(cutoff.getDate() - days);
+
+        return history.filter(h =>
+            h.type === 'usage' &&
+            new Date(h.date) >= cutoff
+        );
+    }
+};
+
 export const inventoryStorage = {
     getAll: (): InventoryItem[] => {
         if (typeof window === "undefined") return INITIAL_INVENTORY;
@@ -36,13 +89,29 @@ export const inventoryStorage = {
         const items = inventoryStorage.getAll();
         const newItems = [item, ...items];
         localStorage.setItem(STORAGE_KEY, JSON.stringify(newItems));
+
+        // Log Initial Stock
+        historyStorage.add({
+            itemId: item.id,
+            itemName: item.name,
+            amount: item.quantity,
+            type: 'restock',
+            note: 'Initial Stock'
+        });
+
         return newItems;
     },
 
     update: (id: string, updates: Partial<InventoryItem>) => {
         const items = inventoryStorage.getAll();
+        const oldItem = items.find(i => i.id === id);
+
         const newItems = items.map((item) => (item.id === id ? { ...item, ...updates, lastUpdated: new Date().toISOString() } : item));
         localStorage.setItem(STORAGE_KEY, JSON.stringify(newItems));
+
+        // Note: Generic updates don't automatically log history unless we know the context.
+        // We will call historyStorage.add manually from the UI when "Using" or "Restocking".
+
         return newItems;
     },
 

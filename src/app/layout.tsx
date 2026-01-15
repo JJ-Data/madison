@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
   title: "Madison Inventory",
@@ -16,17 +18,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <div className="flex min-h-screen bg-background text-foreground">
-          {/* Sidebar - Hidden on mobile for now (will add sheet later if needed, but 'md:flex' handles desktop) */}
-          <Sidebar />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.variable} ${outfit.variable} antialiased bg-background text-foreground`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="flex min-h-screen bg-background">
+            <Sidebar />
 
-          {/* Main Content Area */}
-          <main className="flex-1 overflow-y-auto bg-background">
-            {children}
-          </main>
-        </div>
+            {/* Main Content Area */}
+            <main className="flex-1 md:pl-72 w-full overflow-y-auto bg-background">
+              {children}
+            </main>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

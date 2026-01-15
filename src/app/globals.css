@@ -1,60 +1,109 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 356 86% 57%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 356 86% 57%;
+    /* Light Mode Defaults */
+    --color-background: hsl(210 40% 98%);
+    /* Cool off-white for contrast */
+    --color-foreground: hsl(222 47% 11%);
+    /* Deep blue-black */
+
+    --color-card: hsl(0 0% 100%);
+    /* Pure white cards */
+    --color-card-foreground: hsl(222 47% 11%);
+
+    --color-popover: hsl(0 0% 100%);
+    --color-popover-foreground: hsl(222 47% 11%);
+
+    --color-primary: hsl(4 90% 58%);
+    /* Madison Red */
+    --color-primary-foreground: hsl(0 0% 100%);
+
+    --color-secondary: hsl(210 40% 96.1%);
+    --color-secondary-foreground: hsl(222 47% 11.2%);
+
+    --color-muted: hsl(210 40% 96.1%);
+    --color-muted-foreground: hsl(215.4 16.3% 46.9%);
+
+    --color-accent: hsl(210 40% 96.1%);
+    --color-accent-foreground: hsl(222 47% 11.2%);
+
+    --color-destructive: hsl(0 84.2% 60.2%);
+    --color-destructive-foreground: hsl(210 40% 98%);
+
+    --color-border: hsl(214.3 31.8% 91.4%);
+    /* Visible border */
+    --color-input: hsl(214.3 31.8% 91.4%);
+    --color-ring: hsl(4 90% 58%);
+
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 356 86% 57%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 356 86% 57%;
+    /* Pure Black Backgrounds - Madison Brand */
+    --color-background: hsl(0 0% 0%);
+    --color-foreground: hsl(0 0% 100%);
+
+    /* Surface Colors - Elevated Black surfaces */
+    --color-card: hsl(0 0% 7%);
+    --color-card-foreground: hsl(0 0% 100%);
+
+    --color-popover: hsl(0 0% 7%);
+    --color-popover-foreground: hsl(0 0% 100%);
+
+    /* Primary Brand Color: Madison Red */
+    --color-primary: hsl(4 82% 57%);
+    --color-primary-foreground: hsl(0 0% 100%);
+
+    /* Secondary */
+    --color-secondary: hsl(0 0% 12%);
+    --color-secondary-foreground: hsl(0 0% 100%);
+
+    /* Muted */
+    --color-muted: hsl(0 0% 15%);
+    --color-muted-foreground: hsl(0 0% 65%);
+
+    /* Accents */
+    --color-accent: hsl(4 82% 57%);
+    --color-accent-foreground: hsl(0 0% 100%);
+
+    /* Functional */
+    --color-destructive: hsl(0 84% 60%);
+    --color-destructive-foreground: hsl(0 0% 100%);
+
+    --color-border: hsl(0 0% 18%);
+    --color-input: hsl(0 0% 12%);
+    --color-ring: hsl(4 82% 57%);
   }
+}
+
+@theme {
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-heading: var(--font-outfit), system-ui, sans-serif;
+
+  --radius: 0.5rem;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--color-border);
+    border-style: solid;
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Selection color */
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-primary), transparent 80%);
+    color: var(--color-foreground);
   }
 }
