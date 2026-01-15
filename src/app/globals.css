@@ -51,8 +51,8 @@
     --color-popover: hsl(0 0% 7%);
     --color-popover-foreground: hsl(0 0% 100%);
 
-    /* Primary Brand Color: Madison Red */
-    --color-primary: hsl(4 82% 57%);
+    /* Primary Brand Color: Madison Red - Brightened for Dark Mode visibility */
+    --color-primary: hsl(4 95% 65%);
     --color-primary-foreground: hsl(0 0% 100%);
 
     /* Secondary */
@@ -74,6 +74,23 @@
     --color-border: hsl(0 0% 18%);
     --color-input: hsl(0 0% 12%);
     --color-ring: hsl(4 82% 57%);
+
+    /* Chart Colors */
+    --color-chart-stroke: hsl(0 0% 100%);
+    /* White line in Dark Mode */
+    --color-chart-gradient-start: hsl(0 0% 100%);
+    /* White gradient start */
+    --color-chart-gradient-end: hsl(0 0% 100%);
+  }
+}
+
+@layer base {
+  :root {
+    /* ... existing vars ... */
+    --color-chart-stroke: hsl(4 90% 58%);
+    /* Red line in Light Mode */
+    --color-chart-gradient-start: hsl(4 90% 58%);
+    --color-chart-gradient-end: hsl(4 90% 58%);
   }
 }
 

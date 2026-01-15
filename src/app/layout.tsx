@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { MobileNav } from "@/components/layout/MobileNav";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -28,9 +29,10 @@ export default function RootLayout({
         >
           <div className="flex min-h-screen bg-background">
             <Sidebar />
+            <MobileNav />
 
             {/* Main Content Area */}
-            <main className="flex-1 md:pl-72 w-full overflow-y-auto bg-background">
+            <main className="flex-1 md:pl-72 w-full overflow-y-auto bg-background pb-20 md:pb-0">
               {children}
             </main>
           </div>

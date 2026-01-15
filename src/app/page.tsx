@@ -152,11 +152,11 @@ export default function Home() {
                 <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                      <stop offset="5%" stopColor="var(--color-chart-gradient-start)" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="var(--color-chart-gradient-end)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} strokeOpacity={0.5} />
                   <XAxis
                     dataKey="name"
                     stroke="hsl(var(--muted-foreground))"
@@ -178,14 +178,14 @@ export default function Home() {
                       borderRadius: '8px',
                       color: 'hsl(var(--foreground))'
                     }}
-                    itemStyle={{ color: 'hsl(var(--primary))' }}
+                    itemStyle={{ color: 'var(--color-chart-stroke)' }}
                     labelStyle={{ color: 'hsl(var(--muted-foreground))' }}
                   />
                   <Area
                     type="monotone"
                     dataKey="value"
-                    stroke="hsl(var(--primary))"
-                    strokeWidth={2}
+                    stroke="var(--color-chart-stroke)"
+                    strokeWidth={3}
                     fillOpacity={1}
                     fill="url(#colorValue)"
                   />
