@@ -88,6 +88,27 @@ export default function SettingsPage() {
                         </div>
                     </CardContent>
                 </Card>
+
+                {/* Account Section */}
+                <Card className="border-border bg-card">
+                    <CardHeader>
+                        <CardTitle>Account</CardTitle>
+                        <CardDescription>Manage your account access</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Button variant="outline" className="w-full justify-start text-muted-foreground hover:text-foreground" onClick={() => window.location.href = '/login'}>
+                            <div className="flex items-center gap-2">
+                                <span className="h-2 w-2 rounded-full bg-green-500" />
+                                <span>Currently signed in as Admin</span>
+                            </div>
+                        </Button>
+                        <div className="mt-4 pt-4 border-t border-border md:hidden">
+                            <Button variant="destructive" className="w-full" onClick={() => window.location.href = '/login'}>
+                                Sign Out
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
         </div>
     );

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { MobileHeader } from "@/components/layout/MobileHeader";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -27,7 +28,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen bg-background">
+          <div className="flex min-h-screen flex-col md:flex-row bg-background">
+            <MobileHeader />
             <Sidebar />
             <MobileNav />
 
